@@ -17,6 +17,10 @@ class TalkBackBot(irc.IRCClient):
 
     def connectionMade(self):
         """Called when a connection is made."""
+        self.nickname = self.factory.nickname
+        self.realname = self.factory.realname
+        irc.IRCClient.connectionMade(self)
+        log.msg("connectionMade")
 
         def connectionLost(self, reason):
             """Called when a connection is lost."""
