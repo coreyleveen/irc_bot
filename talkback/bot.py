@@ -44,3 +44,28 @@ class TalkBackBot(irc.IRCClient):
 
         def privsmsg(self, user, channel, msg):
             """Called when the bot receives a message."""
+            sendTo = None
+            prefix = ''
+            senderNick = user.split('!', 1)[0]
+            if channel == self.nickname:
+                # /MSG back
+                sendTo = senderNick
+            elif msg.startswith(self.nickname):
+                # Reply back on the channel
+                sendTo = channel
+                prefix = senderNick + ': '
+            else:
+                msg = msg.lower()
+                for trigger in self.factory.triggers:
+                    if msg in trigger:
+                        sendTo = channel
+                        prefix = senderNick + ': '
+                        break
+
+            if sendTo:
+                quote = self.factory.quotes.pick()
+                self.msg(sendTo, prefix + quote)
+                log.msg(
+                    "sent message to {receiver}, triggered by {sender}:\n\t{quote}"
+                    .format(receiver=sendTo, sender=senderNick, quote=quote)
+                )
