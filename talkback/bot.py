@@ -24,6 +24,8 @@ class TalkBackBot(irc.IRCClient):
 
         def connectionLost(self, reason):
             """Called when a connection is lost."""
+            irc.IRCClient.connectionLost(self, reason)
+            log.msg("connectionLost {!r}".format(reason))
 
         # callbacks for events
 
