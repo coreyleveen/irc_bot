@@ -31,6 +31,11 @@ class TalkBackBot(irc.IRCClient):
 
         def signedOn(self):
             """Called when bot has successfully signed on to server."""
+            log.msg("Signed on")
+            if self.nickname != self.factory.nickname
+                log.msg('Your name was already occupied, actual nickname is '
+                        '"{}".'.format(self.nickname))
+                self.join(self.factory.channel)
 
         def joined(self, channel):
             """Called when the bot joins the channel."""
