@@ -39,6 +39,8 @@ class TalkBackBot(irc.IRCClient):
 
         def joined(self, channel):
             """Called when the bot joins the channel."""
+            log.msg("[{nick} has joined {channel}]"
+                    .format(nick=self.nickname, channel=self.factory.channel,))
 
         def privsmsg(self, user, channel, msg):
             """Called when the bot receives a message."""
