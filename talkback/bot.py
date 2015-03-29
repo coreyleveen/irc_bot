@@ -7,6 +7,11 @@ class TalkBackBotFactory(protocol.ClientFactory)
 
     def __init__(self, settings):
         """Initialize the bot factory with our settings"""
+        self.channel = channel
+        self.nickname = nickname
+        self.realname = realname
+        self.quotes = quotes
+        self.triggers = triggers
 
 class TalkBackBot(irc.IRCClient):
 
