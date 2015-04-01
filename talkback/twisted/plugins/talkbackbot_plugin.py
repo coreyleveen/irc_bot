@@ -28,6 +28,23 @@ class BotServiceMaker(object):
 
     def makeService(self, options):
         """Construct the talkbackbot service."""
+        config = ConfigParser()
+        config.read([options['config']])
+        triggers = [
+            trigger.strip()
+            for trigger
+            in config.get('talkback', 'triggers').split('\n')
+            if trigger.strip()
+        ]
+
+        return TalkBackBotService(
+            endpoint = config.get('irc', 'endpoint'),
+            channel = config.get('irc', 'channel'),
+            nickname = config.get('irc', 'nickname'),
+            realname = config.get('irc', 'realname'),
+            quotesFilename = config.get('talkback', 'quotesFilename'),
+            triggers = triggers
+        )
 
 
 serviceMaker = BotServiceMaker()
