@@ -10,10 +10,20 @@ from talkback.bot import TalkBackBotFactory
 from talkback.quote_picker import QuotePicker
 
 class Options(usage.Options):
+    optParameters = [
+        ['config', 'c', 'settings.ini', 'Configuration file.'],
+    ]
 
 class TalkBackBotService(Service):
 
-    def __init__(self, endpoint, channel, nickname, realname, quotesFilename, triggers):
+    def __init__(self, endpoint, channel, nickname, realname, quotesFilename,
+                 triggers):
+        self._endpoint = endpoint
+        self._channel = channel
+        self._nickname = nickname
+        self._realname = realname
+        self._quotesFilename = quotesFilename
+        self._triggers = triggers
 
     def startService(self):
         """Construct a client & connect to server."""
@@ -21,6 +31,7 @@ class TalkBackBotService(Service):
     def stopService(self):
         """Disconnect."""
 
+@implementer(IServiceMaker, IPlugin)
 class BotServiceMaker(object):
     tapname = "twsrs"
     description = "IRC bot that provides quotations from notable women"
