@@ -27,6 +27,26 @@ class TalkBackBotService(Service):
 
     def startService(self):
         """Construct a client & connect to server."""
+        from twisted.internet import reactor
+
+        def connected(bot):
+            self._bot = bot
+
+        def failure(err):
+            log.err(err, _why='Could not connect to specified server.')
+            reactor.stop()
+
+        quotes = QuotePicker(self._quotesFilename)
+        client = clientFromString(reactor, self._endpoint)
+        factory = TalkBackBotFactory(
+            self._channel,
+            self._nickname,
+            self._realname,
+            quotes,
+            self._triggers,
+        )
+
+        return client.connect(factory).addCallbacks(connected, failure)
 
     def stopService(self):
         """Disconnect."""
