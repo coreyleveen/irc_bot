@@ -9,12 +9,15 @@ from zope.interface import implementer
 from talkback.bot import TalkBackBotFactory
 from talkback.quote_picker import QuotePicker
 
+
 class Options(usage.Options):
     optParameters = [
         ['config', 'c', 'settings.ini', 'Configuration file.'],
     ]
 
+
 class TalkBackBotService(Service):
+    _bot = None
 
     def __init__(self, endpoint, channel, nickname, realname, quotesFilename,
                  triggers):
